@@ -1,0 +1,30 @@
+.listItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid teal;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.listItem + .listItem{
+    margin-top: 10px;
+}
+
+
+.listItemLeft button{
+    margin-right: 5px;
+}
+
+.listItemRight button{
+    margin-left: 5px;
+}
+
+.completed{
+    background: #eaffe9;
+    transition: all .4s;
+}
+
+.hidden{
+    display: none;
+}

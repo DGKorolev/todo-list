@@ -1,0 +1,29 @@
+
+.filterPanel{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.filterButtons button{
+    padding: 5px 10px;
+    cursor: pointer;
+    background: teal;
+    border-radius: 5px;
+    border: 2px solid teal;
+    color: #fff;
+}
+
+.filterButtons button + button {
+    margin-left: 5px;
+}
+
+.sortButtons span{
+    margin-right: 5px;
+}
+
+.sortButtons button + button{
+    margin-left: 5px;
+}
