@@ -1,16 +1,21 @@
 import './App.css';
-import Filter from "./components/Filter/Filter";
-import Input from "./components/Input/Input";
-import ToDoList from "./components/ToDoList/ToDoList";
-import Pagination from "./components/Pagination/Pagination";
-import {useEffect, useMemo, useRef, useState} from "react";
+import Filter from "./components/Filter";
+import InputForm from "./components/InputForm";
+import ToDoList from "./components/ToDoList";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import {convertAndGetTime} from "./library/library";
+import {Container, Grid, Typography} from '@material-ui/core'
+import Pagination from '@material-ui/lab/Pagination';
+
 
 export const ALL = 'all'
 export const DONE = 'done'
 export const UNDONE = 'undone'
 
+
+
 function App() {
+
 
     const [toDoListItems, setToDoListItems] = useState([
         {id: 1, value: "Do something 1", date: "11/06/2020", completed: false},
@@ -42,21 +47,17 @@ function App() {
     })
 
     useEffect(() => {
+        setToDoListItems(state => {
 
-        if (filter.sortDirection){
-            setToDoListItems(state => {
-                return [...state].sort((a, b) => convertAndGetTime(b.date) - convertAndGetTime(a.date))
+            return [...state].sort((a, b) => {
+                return filter.sortDirection
+                    ? convertAndGetTime(b.date) - convertAndGetTime(a.date)
+                    : convertAndGetTime(a.date) - convertAndGetTime(b.date)
             })
-        }else {
-            setToDoListItems(state => {
-                return [...state].sort((a, b) => convertAndGetTime(a.date) - convertAndGetTime(b.date))
-            })
-        }
 
+        })
 
-    }, [filter])
-
-
+    }, [filter.sortDirection])
 
     useMemo(() => {
 
@@ -64,11 +65,9 @@ function App() {
             case DONE:
                 filteredAndSortedToDoListItems.current = [...toDoListItems.filter(item => item.completed)]
                 break
-
             case UNDONE:
                 filteredAndSortedToDoListItems.current = [...toDoListItems.filter(item => !item.completed)]
                 break
-
             default: //ALL
                 filteredAndSortedToDoListItems.current = [...toDoListItems]
                 break
@@ -76,21 +75,33 @@ function App() {
 
     }, [toDoListItems, filter.filterType])
 
+    useMemo(() => {
+        setPaginate(state => ({...state, page: 1}))
+    }, [filter.filterType])
+
 
     const showToDoListItems = filteredAndSortedToDoListItems.current.slice((paginate.page - 1) * paginate.limit, (paginate.page - 1) * paginate.limit + paginate.limit)
 
 
+
     return (
         <div className="App">
-            <div className="container">
-                <div className="todo">
-                    <h1>ToDo</h1>
-                    <Input addItem={setToDoListItems}/>
+            <Container maxWidth="sm">
+                <Grid direction="column" alignItems="center">
+                    <Typography variant="h4" component="h1" align="center">ToDo</Typography>
+                    <InputForm addItem={setToDoListItems}/>
+
                     <Filter setFilter={setFilter}/>
-                    <ToDoList showToDoListItems={showToDoListItems} setToDoListItems={setToDoListItems} />
-                    <Pagination paginate={paginate} setPaginate={setPaginate} showToDoListItemsLength={filteredAndSortedToDoListItems.current.length}/>
-                </div>
-            </div>
+                    <ToDoList showToDoListItems={showToDoListItems} setToDoListItems={setToDoListItems}/>
+                    <Pagination
+                        borderCount={2}
+                        count={Math.ceil(filteredAndSortedToDoListItems.current.length / paginate.limit)}
+                        onChange={(e, page) => setPaginate(state => ({...state, page}))}
+                        page={paginate.page}
+                        className='todo-pagination'
+                    />
+                </Grid>
+            </Container>
         </div>
     );
 }

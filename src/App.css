@@ -4,29 +4,8 @@
   box-sizing: border-box;
 }
 
-.container{
+.todo-pagination{
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.todo {
-  width: 350px;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-.todo h1{
-  color: teal;
-}
-
-.icon-button{
-  cursor: pointer;
-  font-size: 18px;
-  background: transparent;
-  border: transparent;
-  color: teal;
+  margin-top: 20px;
 }

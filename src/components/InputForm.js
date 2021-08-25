@@ -1,9 +1,18 @@
 import React, {useState} from 'react';
-import classes from './styles.module.css'
+import {Input, makeStyles} from '@material-ui/core'
+
+const useStyles = makeStyles((theme) => ({
+    inputForm: {
+        padding: [theme.spacing(1), theme.spacing(1)].join(' '),
+        marginTop: theme.spacing(2),
+        width: '100%'
+    }
+}))
 
 
-const Input = ({addItem}) => {
+const InputForm = ({addItem}) => {
 
+    const classes = useStyles()
     const [value, setValue] = useState('')
 
     const keyDownInputHandler = (e) => {
@@ -16,21 +25,25 @@ const Input = ({addItem}) => {
         }
 
         addItem((toDoListState) => [...toDoListState, newToDoListItem])
-
         setValue('')
+    }
+
+    const changeInputHandler = (e) => {
+        setValue(e.target.value)
     }
 
 
     return (
-        <input
-            className={classes.input_form}
+        <Input
+            // className={classes.input_form}
+            className={classes.inputForm}
             type="text"
             placeholder="i want to ..."
             value={value}
-            onChange={e => setValue(e.target.value)}
+            onChange={changeInputHandler}
             onKeyDown={keyDownInputHandler}
         />
     );
 };
 
-export default Input;
+export default InputForm;

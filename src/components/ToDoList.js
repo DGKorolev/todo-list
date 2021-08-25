@@ -1,15 +1,15 @@
 import React from 'react';
-import ToDoListItem from "../ToDoListItem/ToDoListItem";
-import classes from './styles.module.css'
+import ToDoListItem from "./ToDoListItem";
+import {List} from "@material-ui/core";
 
 const ToDoList = ({showToDoListItems, setToDoListItems}) => {
 
     return (
-        <ul className={classes.todoList}>
+        <List>
             {showToDoListItems.map(toDoListItem =>
                 <ToDoListItem key={toDoListItem.id} toDoListItem={toDoListItem} setToDoListItems={setToDoListItems} />
             )}
-        </ul>
+        </List>
     );
 };
 
