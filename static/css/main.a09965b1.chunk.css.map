@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/App.css"],"names":[],"mappings":"AAAA,EACE,QAAS,CACT,SAAU,CACV,qBACF,CAEA,iBACE,YAAa,CACb,sBAAuB,CACvB,eACF","file":"main.a09965b1.chunk.css","sourcesContent":["*{\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\n.todo-pagination{\n  display: flex;\n  justify-content: center;\n  margin-top: 20px;\n}"]}
