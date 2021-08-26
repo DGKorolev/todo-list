@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const InputForm = ({addItem}) => {
+const InputForm = ({addItem, setError}) => {
 
     const classes = useStyles()
     const [name, setName] = useState('')
@@ -25,13 +25,13 @@ const InputForm = ({addItem}) => {
         if (typeof res !== "string"){
 
             addItem((toDoListState) => [...toDoListState, res])
-            setName('')
+
 
         }else {
-
-
-
+            setError(res)
         }
+
+        setName('')
 
     }
 

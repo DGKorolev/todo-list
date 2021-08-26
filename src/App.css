@@ -9,3 +9,7 @@
   justify-content: center;
   margin-top: 20px;
 }
+
+.gridContainer{
+  height: 100vh;
+}

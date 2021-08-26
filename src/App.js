@@ -7,6 +7,7 @@ import {getTime} from "./library/library";
 import {Container, Grid, Typography} from '@material-ui/core'
 import Pagination from '@material-ui/lab/Pagination';
 import Task from "./services/task";
+import Error from "./components/Error";
 
 
 export const ALL = 'all'
@@ -15,6 +16,8 @@ export const UNDONE = 'undone'
 
 
 function App() {
+
+    const [error, setError] = useState('')
 
     const [toDoListItems, setToDoListItems] = useState([])
 
@@ -81,21 +84,27 @@ function App() {
 
     return (
         <div className="App">
-            <Container maxWidth="sm">
-                <Grid container direction="column">
-                    <Typography variant="h4" component="h1" align="center">ToDo</Typography>
-                    <InputForm addItem={setToDoListItems}/>
+            <Grid container alignItems="center" justifyContent="center" className='gridContainer'>
+                <Container maxWidth="sm">
+                    <Grid container direction="column">
 
-                    <Filter setFilter={setFilter}/>
-                    <ToDoList showToDoListItems={showToDoListItems} setToDoListItems={setToDoListItems}/>
-                    <Pagination
-                        count={Math.ceil(filteredAndSortedToDoListItems.length / paginate.limit)}
-                        onChange={(e, page) => setPaginate(state => ({...state, page}))}
-                        page={paginate.page}
-                        className='todo-pagination'
-                    />
-                </Grid>
-            </Container>
+                        {error &&
+                            <Error setError={setError} time={2000}>{error}</Error>
+                        }
+                        <Typography variant="h4" component="h1" align="center">ToDo</Typography>
+                        <InputForm addItem={setToDoListItems} setError={setError}/>
+
+                        <Filter setFilter={setFilter}/>
+                        <ToDoList showToDoListItems={showToDoListItems} setToDoListItems={setToDoListItems}/>
+                        <Pagination
+                            count={Math.ceil(filteredAndSortedToDoListItems.length / paginate.limit)}
+                            onChange={(e, page) => setPaginate(state => ({...state, page}))}
+                            page={paginate.page}
+                            className='todo-pagination'
+                        />
+                    </Grid>
+                </Container>
+            </Grid>
         </div>
     );
 }
