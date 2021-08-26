@@ -7,7 +7,7 @@ const ToDoList = ({showToDoListItems, setToDoListItems}) => {
     return (
         <List>
             {showToDoListItems.map(toDoListItem =>
-                <ToDoListItem key={toDoListItem.id} toDoListItem={toDoListItem} setToDoListItems={setToDoListItems} />
+                <ToDoListItem key={toDoListItem.uuid} toDoListItem={toDoListItem} setToDoListItems={setToDoListItems} />
             )}
         </List>
     );

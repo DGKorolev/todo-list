@@ -28,7 +28,7 @@ const Filter = ({setFilter}) => {
                         Undone
                     </Button>
                 </Box>
-                <Grid container direction="row" justifyContent="flex-end" alignItems="center">
+                <Box>
                     <Typography display="inline">Sort by Date</Typography>
                     <IconButton
                         onClick={handlerSortButton(true)}
@@ -40,7 +40,7 @@ const Filter = ({setFilter}) => {
                     >
                         <ArrowDownwardIcon/>
                     </IconButton>
-                </Grid>
+                </Box>
             </Grid>
         </Box>
     );

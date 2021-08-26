@@ -29,14 +29,14 @@ const ToDoListItem = ({toDoListItem, setToDoListItems}) => {
 
     const deleteItem = (e) => {
         e.stopPropagation()
-        setToDoListItems(state => [...state].filter(item => item.id !== toDoListItem.id))
+        setToDoListItems(state => [...state].filter(item => item.uuid !== toDoListItem.uuid))
     }
 
     const markCompleted = (e) => {
         e.stopPropagation()
         setToDoListItems(state => {
             const newState = [...state]
-            newState.find(item => item.id === toDoListItem.id).completed = true
+            newState.find(item => item.uuid === toDoListItem.uuid).done = true
             return [...newState]
         })
     }
@@ -50,12 +50,21 @@ const ToDoListItem = ({toDoListItem, setToDoListItems}) => {
         if (e.code === "Enter") {
 
             setToDoListItems(state => {
-                const newState = [...state]
-                newState.find(item => item.id === toDoListItem.id).value = e.target.value
-                console.log(newState)
+
+                const newState  = [...state]
+
+                let elemIndex = newState.findIndex(item => item.uuid === toDoListItem.uuid)
+
+                newState[elemIndex] = {
+                    ...newState[elemIndex],
+                    name: e.target.value,
+                    updatedAt: new Date().toISOString()
+                }
+
                 return [...newState]
 
             })
+
             setHiddenInput(true)
         }
 
@@ -68,7 +77,7 @@ const ToDoListItem = ({toDoListItem, setToDoListItems}) => {
 
     return (
         <ListItem
-            className={toDoListItem.completed ? [classes.listItem, classes.completed].join(' ') : classes.listItem}
+            className={toDoListItem.done ? [classes.listItem, classes.completed].join(' ') : classes.listItem}
             onClick={editModeToDoItem}
         >
             <Grid container justifyContent="space-between" alignItems="center">
@@ -81,18 +90,18 @@ const ToDoListItem = ({toDoListItem, setToDoListItems}) => {
                         <CheckCircleOutlineIcon/>
                     </IconButton>
                     {hiddenInput
-                        ? <Typography component="span">{toDoListItem.value}</Typography>
+                        ? <Typography component="span">{toDoListItem.name}</Typography>
                         : <Input
                             autoFocus
                             onBlur={() => setHiddenInput(true)}
                             onKeyDown={handlerInputConfirm}
-                            defaultValue={toDoListItem.value}
+                            defaultValue={toDoListItem.name}
                         />
                     }
                 </Box>
 
                 <Box>
-                    <Typography component="span">{toDoListItem.date}</Typography>
+                    <Typography component="span">{toDoListItem.updatedAt.substr(0, 10)}</Typography>
                     <IconButton
                         size="small"
                         onClick={deleteItem}
