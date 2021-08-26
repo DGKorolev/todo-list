@@ -10,17 +10,30 @@ export default class Task {
 
     static async creat(taskName) {
 
-        try {
-            const res = await axios.post(getApiAddress('/tsk/2'), {
+            const res = await axios.post(getApiAddress('/task/2'), {
                 name: taskName,
                 done: false
             })
 
             return res.data
+    }
 
-        } catch (error) {
-            return error.message
-        }
+    static async edit(taskId, editProp) {
+
+        const resource = `/task/2/${taskId}`
+
+        const res = await axios.patch(getApiAddress(resource), editProp)
+
+        return res.data
+    }
+
+    static async delete(taskId) {
+
+        const resource = `/tsk/2/${taskId}`
+
+        const res = await axios.delete(getApiAddress(resource))
+
+        return res.data
     }
 
 }

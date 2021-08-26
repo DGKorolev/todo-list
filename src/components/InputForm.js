@@ -20,16 +20,15 @@ const InputForm = ({addItem, setError}) => {
 
         if (e.code !== "Enter" || !name.trim()) return
 
-        const res = await Task.creat(name)
+        try {
 
-        if (typeof res !== "string"){
+            const newToDo = await Task.creat(name)
+            addItem((toDoListState) => [...toDoListState, newToDo])
 
-            addItem((toDoListState) => [...toDoListState, res])
-
-
-        }else {
-            setError(res)
+        }catch (e){
+            setError(e.message)
         }
+
 
         setName('')
 

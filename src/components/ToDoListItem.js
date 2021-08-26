@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Box, Grid, IconButton, Input, ListItem, makeStyles, Typography} from "@material-ui/core";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import Task from "../services/task";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -15,30 +16,35 @@ const useStyles = makeStyles((theme) => ({
         transition: 'all .4s',
         borderColor: theme.palette.success.main
     },
-    hiddenInput : {
+    hiddenInput: {
         width: "100px",
     }
 
 }))
 
-const ToDoListItem = ({toDoListItem, setToDoListItems}) => {
+const ToDoListItem = ({toDoListItem, setToDoListItems, setError}) => {
 
     let classes = useStyles()
 
     const [hiddenInput, setHiddenInput] = useState(true)
 
-    const deleteItem = (e) => {
+    const deleteItem = async (e) => {
         e.stopPropagation()
-        setToDoListItems(state => [...state].filter(item => item.uuid !== toDoListItem.uuid))
+
+        try {
+
+            const res = await Task.delete(toDoListItem.uuid)
+            setToDoListItems(state => [...state].filter(item => item.uuid !== toDoListItem.uuid))
+
+        }catch (e){
+            setError(e.message)
+        }
+
     }
 
     const markCompleted = (e) => {
         e.stopPropagation()
-        setToDoListItems(state => {
-            const newState = [...state]
-            newState.find(item => item.uuid === toDoListItem.uuid).done = true
-            return [...newState]
-        })
+        editTask({done: true})
     }
 
     const editModeToDoItem = (e) => {
@@ -47,29 +53,33 @@ const ToDoListItem = ({toDoListItem, setToDoListItems}) => {
     }
 
     const handlerInputConfirm = (e) => {
+
         if (e.code === "Enter") {
-
-            setToDoListItems(state => {
-
-                const newState  = [...state]
-
-                let elemIndex = newState.findIndex(item => item.uuid === toDoListItem.uuid)
-
-                newState[elemIndex] = {
-                    ...newState[elemIndex],
-                    name: e.target.value,
-                    updatedAt: new Date().toISOString()
-                }
-
-                return [...newState]
-
-            })
-
+            editTask({name: e.target.value})
             setHiddenInput(true)
         }
 
+
         if (e.code === "Escape") {
             setHiddenInput(true)
+        }
+
+    }
+
+    const editTask = async (editProp) => {
+
+        try {
+
+            const editTask = await Task.edit(toDoListItem.uuid, editProp)
+
+            setToDoListItems(state => ([...state].map(task => {
+                    if (task.uuid === toDoListItem.uuid) return editTask
+                    return task
+                })
+            ))
+
+        } catch (e) {
+            setError(e.message)
         }
 
     }
@@ -101,7 +111,7 @@ const ToDoListItem = ({toDoListItem, setToDoListItems}) => {
                 </Box>
 
                 <Box>
-                    <Typography component="span">{toDoListItem.updatedAt.substr(0, 10)}</Typography>
+                    <Typography component="span">{toDoListItem.createdAt.substr(0, 10)}</Typography>
                     <IconButton
                         size="small"
                         onClick={deleteItem}

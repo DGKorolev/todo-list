@@ -49,8 +49,8 @@ function App() {
         setToDoListItems(state => (
             [...state].sort((a, b) => (
                     filter.sortDirection
-                        ? getTime(b.updatedAt) - getTime(a.updatedAt)
-                        : getTime(a.updatedAt) - getTime(b.updatedAt)
+                        ? getTime(b.createdAt) - getTime(a.createdAt)
+                        : getTime(a.createdAt) - getTime(b.createdAt)
                 )
             )
         ))
@@ -93,9 +93,8 @@ function App() {
                         }
                         <Typography variant="h4" component="h1" align="center">ToDo</Typography>
                         <InputForm addItem={setToDoListItems} setError={setError}/>
-
                         <Filter setFilter={setFilter}/>
-                        <ToDoList showToDoListItems={showToDoListItems} setToDoListItems={setToDoListItems}/>
+                        <ToDoList showToDoListItems={showToDoListItems} setToDoListItems={setToDoListItems} setError={setError}/>
                         <Pagination
                             count={Math.ceil(filteredAndSortedToDoListItems.length / paginate.limit)}
                             onChange={(e, page) => setPaginate(state => ({...state, page}))}
