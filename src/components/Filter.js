@@ -28,7 +28,7 @@ const Filter = ({setFilter}) => {
                         Undone
                     </Button>
                 </Box>
-                <Grid direction="row" justifyContent="flex-end" alignItems="center">
+                <Grid container direction="row" justifyContent="flex-end" alignItems="center">
                     <Typography display="inline">Sort by Date</Typography>
                     <IconButton
                         onClick={handlerSortButton(true)}
