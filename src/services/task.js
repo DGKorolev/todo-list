@@ -29,7 +29,7 @@ export default class Task {
 
     static async delete(taskId) {
 
-        const resource = `/tsk/2/${taskId}`
+        const resource = `/task/2/${taskId}`
 
         const res = await axios.delete(getApiAddress(resource))
 
