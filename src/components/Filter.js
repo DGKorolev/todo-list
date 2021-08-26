@@ -18,7 +18,7 @@ const Filter = ({setFilter}) => {
         <Box mt={2}>
             <Grid container justifyContent="space-between" alignItems="center" >
                 <Box>
-                    <Button onClick={handlerFilterButton(ALL)} size="small">
+                    <Button onClick={handlerFilterButton(ALL)}>
                         All
                     </Button>
                     <Button onClick={handlerFilterButton(DONE)}>

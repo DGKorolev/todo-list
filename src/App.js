@@ -6,7 +6,7 @@ import React, {useEffect, useMemo, useState} from "react";
 import {getTime} from "./library/library";
 import {Container, Grid, Typography} from '@material-ui/core'
 import Pagination from '@material-ui/lab/Pagination';
-import Tasks from "./services/tasks";
+import Task from "./services/task";
 
 
 export const ALL = 'all'
@@ -15,7 +15,6 @@ export const UNDONE = 'undone'
 
 
 function App() {
-
 
     const [toDoListItems, setToDoListItems] = useState([])
 
@@ -34,7 +33,7 @@ function App() {
     useEffect(() => {
 
         const fetchData = async () => {
-            const response = await Tasks.getAll()
+            const response = await Task.getAll()
             setToDoListItems(response)
         }
 

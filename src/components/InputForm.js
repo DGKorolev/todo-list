@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Input, makeStyles} from '@material-ui/core'
+import Task from "../services/task";
 
 const useStyles = makeStyles((theme) => ({
     inputForm: {
@@ -13,25 +14,30 @@ const useStyles = makeStyles((theme) => ({
 const InputForm = ({addItem}) => {
 
     const classes = useStyles()
-    const [value, setValue] = useState('')
+    const [name, setName] = useState('')
 
-    const keyDownInputHandler = (e) => {
-        if (e.code !== "Enter") return
+    const keyDownInputHandler = async (e) => {
 
-        const newToDoListItem = {
-            id: Date.now(),
-            value,
-            date: new Date().toLocaleDateString().replace(/\./g,'/')
+        if (e.code !== "Enter" || !name.trim()) return
+
+        const res = await Task.creat(name)
+
+        if (typeof res !== "string"){
+
+            addItem((toDoListState) => [...toDoListState, res])
+            setName('')
+
+        }else {
+
+
+
         }
 
-        addItem((toDoListState) => [...toDoListState, newToDoListItem])
-        setValue('')
     }
 
     const changeInputHandler = (e) => {
-        setValue(e.target.value)
+        setName(e.target.value)
     }
-
 
     return (
         <Input
@@ -39,7 +45,7 @@ const InputForm = ({addItem}) => {
             className={classes.inputForm}
             type="text"
             placeholder="i want to ..."
-            value={value}
+            value={name}
             onChange={changeInputHandler}
             onKeyDown={keyDownInputHandler}
         />
