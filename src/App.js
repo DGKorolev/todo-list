@@ -73,8 +73,7 @@ function App() {
 
     useEffect(() => {
         setPaginate(state => ({...state, page: 1}))
-    }, [filter.filterType])
-
+    }, [filter])
 
     const showToDoListItems = useMemo(() => {
         return filteredAndSortedToDoListItems.slice((paginate.page - 1) * paginate.limit, (paginate.page - 1) * paginate.limit + paginate.limit)
