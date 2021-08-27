@@ -1,10 +1,17 @@
 import axios from 'axios'
+import {ASC} from "../components/Filter";
 
 export default class Task {
 
-    static async getAll() {
+    static async getAll(filterBy = '', order = ASC) {
 
-        const res = await axios.get('/tasks/2')
+        const params = {
+            order,
+        }
+
+        if (filterBy) params.filterBy = filterBy
+
+        const res = await axios.get('/tasks/2', {params})
 
         if (res.status !== 200) throw Error('Failed to get the task list')
 
@@ -12,7 +19,7 @@ export default class Task {
 
     }
 
-    static async creat(taskName) {
+    static async create(taskName) {
 
         const res = await axios.post('/task/2', {
             name: taskName,

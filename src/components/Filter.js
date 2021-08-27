@@ -3,9 +3,11 @@ import {Box, Button, Grid, IconButton, Typography} from "@material-ui/core";
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
-export const ALL = 'all'
 export const DONE = 'done'
 export const UNDONE = 'undone'
+
+export const ASC = 'asc'
+export const DESC = 'desc'
 
 const Filter = ({setFilter}) => {
 
@@ -21,7 +23,7 @@ const Filter = ({setFilter}) => {
         <Box mt={2}>
             <Grid container justifyContent="space-between" alignItems="center" >
                 <Box>
-                    <Button onClick={handlerFilterButton(ALL)}>
+                    <Button onClick={handlerFilterButton('')}>
                         All
                     </Button>
                     <Button onClick={handlerFilterButton(DONE)}>
@@ -34,12 +36,12 @@ const Filter = ({setFilter}) => {
                 <Box>
                     <Typography display="inline">Sort by Date</Typography>
                     <IconButton
-                        onClick={handlerSortButton(true)}
+                        onClick={handlerSortButton(DESC)}
                     >
                         <ArrowUpwardIcon/>
                     </IconButton>
                     <IconButton
-                        onClick={handlerSortButton(false)}
+                        onClick={handlerSortButton(ASC)}
                     >
                         <ArrowDownwardIcon/>
                     </IconButton>

@@ -1,5 +1,5 @@
 import './App.css';
-import Filter, {ALL} from "./components/Filter";
+import Filter, {DESC} from "./components/Filter";
 import InputForm from "./components/InputForm";
 import ToDoList from "./components/ToDoList";
 import React, {useEffect, useMemo, useState} from "react";
@@ -7,7 +7,6 @@ import {Container, Grid, Typography} from '@material-ui/core'
 import Pagination from '@material-ui/lab/Pagination';
 import Task from "./services/task";
 import Error from "./components/Error";
-import {useSortAndFilteredTasks} from "./hooks/useSortAndFilteredTasks";
 import {useFetch} from "./hooks/useFetch";
 import axios from "axios";
 
@@ -21,55 +20,43 @@ function App() {
     const [tasks, setTasks] = useState([])
 
     const [filter, setFilter] = useState({
-        sortDirection: true,
-        filterType: ALL,
+        sortDirection: DESC,
+        filterType: '',
     })
-
-    console.log(tasks)
-
 
     const [paginate, setPaginate] = useState({
         page: 1,
         limit: 5
     })
 
-    const fetchTasks = useFetch(async () => {
-        const response = await Task.getAll()
+    const fetchTasks = useFetch(async (typeFilter, sortDirection) => {
+        const response = await Task.getAll(typeFilter, sortDirection)
         setTasks(response)
     }, setError)
 
+
+
     const createTaskFetch = useFetch(async (name) => {
-        const newTask = await Task.creat(name)
-        setTasks((tasksState) => [...tasksState, newTask])
+        await Task.create(name)
+        setFilter(filterState => ({...filterState, page: 1}))
+        fetchTasks(filter.filterType, filter.sortDirection)
+
     }, setError)
 
     const editTaskFetch = useFetch(async (id, editData) => {
-
-        const editTask = await Task.edit(id, editData)
-
-        setTasks(tasksState => {
-
-            const newTaskState = tasksState.filter(task => task.uuid !== id)
-            newTaskState.push(editTask)
-            return newTaskState
-
-        })
-
-
+        await Task.edit(id, editData)
+        fetchTasks(filter.filterType, filter.sortDirection)
     }, setError)
 
     const deleteTaskFetch = useFetch(async (id) => {
         await Task.delete(id)
-        setTasks(state => [...state].filter(item => item.uuid !== id))
+        fetchTasks(filter.filterType, filter.sortDirection)
     }, setError)
 
 
     useEffect(() => {
-        fetchTasks()
-    }, [fetchTasks])
-
-
-    const sortAndFilteredTasks = useSortAndFilteredTasks(tasks, filter)
+        fetchTasks(filter.filterType, filter.sortDirection)
+    }, [filter]);
 
 
     useEffect(() => {
@@ -77,8 +64,8 @@ function App() {
     }, [filter])
 
     const displayedTasks = useMemo(() => {
-        return sortAndFilteredTasks.slice((paginate.page - 1) * paginate.limit, (paginate.page - 1) * paginate.limit + paginate.limit)
-    }, [sortAndFilteredTasks, paginate])
+        return tasks.slice((paginate.page - 1) * paginate.limit, (paginate.page - 1) * paginate.limit + paginate.limit)
+    }, [tasks, paginate])
 
 
     return (
@@ -95,7 +82,7 @@ function App() {
                         <Filter setFilter={setFilter}/>
                         <ToDoList displayedTasks={displayedTasks} deleteTaskFetch={deleteTaskFetch} editTaskFetch={editTaskFetch}/>
                         <Pagination
-                            count={Math.ceil(sortAndFilteredTasks.length / paginate.limit)}
+                            count={Math.ceil(tasks.length / paginate.limit)}
                             onChange={(e, page) => setPaginate(state => ({...state, page}))}
                             page={paginate.page}
                             className='todo-pagination'
