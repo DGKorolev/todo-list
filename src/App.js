@@ -1,5 +1,5 @@
 import './App.css';
-import Filter from "./components/Filter";
+import Filter, {ALL} from "./components/Filter";
 import InputForm from "./components/InputForm";
 import ToDoList from "./components/ToDoList";
 import React, {useEffect, useMemo, useState} from "react";
@@ -9,12 +9,9 @@ import Task from "./services/task";
 import Error from "./components/Error";
 import {useSortAndFilteredTasks} from "./hooks/useSortAndFilteredTasks";
 import {useFetch} from "./hooks/useFetch";
+import axios from "axios";
 
-
-export const ALL = 'all'
-export const DONE = 'done'
-export const UNDONE = 'undone'
-
+axios.defaults.baseURL = process.env.REACT_APP_API_ADDRESS;
 
 function App() {
 
@@ -36,6 +33,29 @@ function App() {
         const response = await Task.getAll()
         setTasks(response)
     }, setError)
+
+    const createTaskFetch = useFetch(async (name) => {
+        const newTask = await Task.creat(name)
+        setTasks((tasksState) => [...tasksState, newTask])
+    }, setError)
+
+    const editTaskFetch = useFetch(async (id, editData) => {
+
+        const editTask = await Task.edit(id, editData)
+
+        setTasks(state => ([...state].map(item => {
+                if (item.uuid === id && editTask) return editTask
+                return item
+            })
+        ))
+
+    }, setError)
+
+    const deleteTaskFetch = useFetch(async (id) => {
+        await Task.delete(id)
+        setTasks(state => [...state].filter(item => item.uuid !== id))
+    }, setError)
+
 
     useEffect(() => {
         fetchTasks()
@@ -63,9 +83,9 @@ function App() {
                             <Error time={2000} setError={setError}>{error}</Error>
                         }
                         <Typography variant="h4" component="h1" align="center">ToDo</Typography>
-                        <InputForm setTasks={setTasks} setError={setError}/>
+                        <InputForm setTasks={setTasks} createTaskFetch={createTaskFetch}/>
                         <Filter setFilter={setFilter}/>
-                        <ToDoList displayedTasks={displayedTasks} setTasks={setTasks} setError={setError}/>
+                        <ToDoList displayedTasks={displayedTasks} deleteTaskFetch={deleteTaskFetch} editTaskFetch={editTaskFetch}/>
                         <Pagination
                             count={Math.ceil(sortAndFilteredTasks.length / paginate.limit)}
                             onChange={(e, page) => setPaginate(state => ({...state, page}))}

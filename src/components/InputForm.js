@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import {Input, makeStyles} from '@material-ui/core'
-import Task from "../services/task";
-import {useFetch} from "../hooks/useFetch";
 
 const useStyles = makeStyles((theme) => ({
     inputForm: {
@@ -12,19 +10,16 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const InputForm = ({setTasks, setError}) => {
+const InputForm = ({createTaskFetch}) => {
 
     const classes = useStyles()
     const [name, setName] = useState('')
 
-    const createTask = useFetch(async (name) => {
-        const newToDo = await Task.creat(name)
-        setTasks((toDoListState) => [...toDoListState, newToDo])
-        setName('')
-    }, setError)
-
-    const keyDownInputHandler = (e) => {
-        if(e.code === "Enter" && name.trim()) createTask(name)
+    const keyDownInputHandler = async (e) => {
+        if(e.code === "Enter" && name.trim()) {
+            await createTaskFetch(name)
+            setName('')
+        }
     }
 
     const changeInputHandler = (e) => {

@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {Box, Grid, IconButton, Input, ListItem, makeStyles, Typography} from "@material-ui/core";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import Task from "../services/task";
-import {useFetch} from "../hooks/useFetch";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -23,41 +21,22 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const ToDoListItem = ({task, setTasks, setError}) => {
+const ToDoListItem = ({task, editTaskFetch, deleteTaskFetch}) => {
 
     let classes = useStyles()
 
     const [hiddenInput, setHiddenInput] = useState(true)
 
 
-    const deleteFetch = useFetch(async (id) => {
-        await Task.delete(task.uuid)
-        setTasks(state => [...state].filter(item => item.uuid !== id))
-    }, setError)
-
-
     const clickDeleteHandler = async (e) => {
         e.stopPropagation()
-        deleteFetch(task.uuid)
+        deleteTaskFetch(task.uuid)
     }
-
-
-    const editFetch = useFetch(async (id, editData) => {
-
-        const editTask = await Task.edit(id, editData)
-
-        setTasks(state => ([...state].map(item => {
-                if (item.uuid === task.uuid) return editTask
-                return item
-            })
-        ))
-
-    }, setError)
 
     const inputKeyDownHandler = (e) => {
 
         if (e.code === "Enter") {
-            editFetch(task.uuid, {name: e.target.value})
+            editTaskFetch(task.uuid, {name: e.target.value})
             setHiddenInput(true)
         }
 
@@ -69,7 +48,7 @@ const ToDoListItem = ({task, setTasks, setError}) => {
 
     const clickConfirmHandler = (e) => {
         e.stopPropagation()
-        editFetch(task.uuid, {done: true})
+        editTaskFetch(task.uuid, {done: true})
     }
 
     const clickTaskHandler = (e) => {

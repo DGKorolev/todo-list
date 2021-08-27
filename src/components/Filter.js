@@ -1,8 +1,11 @@
 import React from 'react';
-import {ALL, DONE, UNDONE} from "../App";
 import {Box, Button, Grid, IconButton, Typography} from "@material-ui/core";
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+
+export const ALL = 'all'
+export const DONE = 'done'
+export const UNDONE = 'undone'
 
 const Filter = ({setFilter}) => {
 

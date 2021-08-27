@@ -2,12 +2,12 @@ import React from 'react';
 import ToDoListItem from "./ToDoListItem";
 import {List} from "@material-ui/core";
 
-const ToDoList = ({displayedTasks, setTasks, setError}) => {
+const ToDoList = ({displayedTasks, editTaskFetch, deleteTaskFetch}) => {
 
     return (
         <List>
             {displayedTasks.map(task =>
-                <ToDoListItem key={task.uuid} task={task} setTasks={setTasks} setError={setError}/>
+                <ToDoListItem key={task.uuid} task={task} editTaskFetch={editTaskFetch} deleteTaskFetch={deleteTaskFetch}/>
             )}
         </List>
     );

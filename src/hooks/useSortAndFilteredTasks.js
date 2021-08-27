@@ -1,5 +1,5 @@
 import {useMemo} from "react";
-import {DONE, UNDONE} from "../App";
+import {DONE, UNDONE} from "../components/Filter";
 import {getTime} from "../library/library";
 
 export const useSortAndFilteredTasks = (tasks, filter) => {
