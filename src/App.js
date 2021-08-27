@@ -15,6 +15,7 @@ axios.defaults.baseURL = process.env.REACT_APP_API_ADDRESS;
 
 function App() {
 
+
     const [error, setError] = useState('')
 
     const [tasks, setTasks] = useState([])
@@ -23,6 +24,9 @@ function App() {
         sortDirection: true,
         filterType: ALL,
     })
+
+    console.log(tasks)
+
 
     const [paginate, setPaginate] = useState({
         page: 1,
@@ -43,11 +47,14 @@ function App() {
 
         const editTask = await Task.edit(id, editData)
 
-        setTasks(state => ([...state].map(item => {
-                if (item.uuid === id && editTask) return editTask
-                return item
-            })
-        ))
+        setTasks(tasksState => {
+
+            const newTaskState = tasksState.filter(task => task.uuid !== id)
+            newTaskState.push(editTask)
+            return newTaskState
+
+        })
+
 
     }, setError)
 
@@ -59,7 +66,8 @@ function App() {
 
     useEffect(() => {
         fetchTasks()
-    }, [])
+    }, [fetchTasks])
+
 
     const sortAndFilteredTasks = useSortAndFilteredTasks(tasks, filter)
 
