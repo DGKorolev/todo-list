@@ -39,10 +39,10 @@ function App() {
     const createTaskFetch = useFetch(async (name) => {
         await Task.create(name)
         setPaginate(paginateState => ({...paginateState, page: 1}))
-        setFilter(filterState => ({
+        setFilter({
             sortDirection: DESC,
             filterType: ''
-        }))
+        })
         fetchTasks(filter.filterType, filter.sortDirection)
 
     }, setError)
