@@ -1,13 +1,8 @@
-import {useState} from "react";
+export const useFetch = (callback, setError) => {
 
-export const useFetch = (callback) => {
-
-    const [error, setError] = useState('')
-
-    const fetchFunction = async (...ars) => {
+    return async (...ars) => {
 
         try {
-
             return await callback(...ars)
 
         }catch (e){
@@ -15,7 +10,5 @@ export const useFetch = (callback) => {
         }
 
     }
-
-    return [fetchFunction, error]
 
 }

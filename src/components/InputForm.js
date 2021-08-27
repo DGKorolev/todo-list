@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Input, makeStyles} from '@material-ui/core'
 import Task from "../services/task";
+import {useFetch} from "../hooks/useFetch";
 
 const useStyles = makeStyles((theme) => ({
     inputForm: {
@@ -11,27 +12,19 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const InputForm = ({setTasks}) => {
+const InputForm = ({setTasks, setError}) => {
 
     const classes = useStyles()
     const [name, setName] = useState('')
 
-    const keyDownInputHandler = async (e) => {
-
-        if (e.code !== "Enter" || !name.trim()) return
-
-        try {
-
-            const newToDo = await Task.creat(name)
-            setTasks((toDoListState) => [...toDoListState, newToDo])
-
-        }catch (e){
-
-        }
-
-
+    const createTask = useFetch(async (name) => {
+        const newToDo = await Task.creat(name)
+        setTasks((toDoListState) => [...toDoListState, newToDo])
         setName('')
+    }, setError)
 
+    const keyDownInputHandler = (e) => {
+        if(e.code === "Enter" && name.trim()) createTask(name)
     }
 
     const changeInputHandler = (e) => {
@@ -39,15 +32,18 @@ const InputForm = ({setTasks}) => {
     }
 
     return (
-        <Input
-            // className={classes.input_form}
-            className={classes.inputForm}
-            type="text"
-            placeholder="i want to ..."
-            value={name}
-            onChange={changeInputHandler}
-            onKeyDown={keyDownInputHandler}
-        />
+        <>
+            <Input
+                // className={classes.input_form}
+                className={classes.inputForm}
+                type="text"
+                placeholder="i want to ..."
+                value={name}
+                onChange={changeInputHandler}
+                onKeyDown={keyDownInputHandler}
+            />
+
+        </>
     );
 };
 

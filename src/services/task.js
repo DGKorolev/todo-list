@@ -12,7 +12,6 @@ export default class Task {
 
             const res = await axios.post(getApiAddress('/task/2'), {
                 name: taskName,
-                done: false
             })
 
             return res.data

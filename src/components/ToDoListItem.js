@@ -3,6 +3,7 @@ import {Box, Grid, IconButton, Input, ListItem, makeStyles, Typography} from "@m
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Task from "../services/task";
+import {useFetch} from "../hooks/useFetch";
 
 const useStyles = makeStyles((theme) => ({
 
@@ -22,43 +23,43 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const ToDoListItem = ({toDoListItem, setToDoListItems, setError}) => {
+const ToDoListItem = ({task, setTasks, setError}) => {
 
     let classes = useStyles()
 
     const [hiddenInput, setHiddenInput] = useState(true)
 
-    const deleteItem = async (e) => {
+
+    const deleteFetch = useFetch(async (id) => {
+        await Task.delete(task.uuid)
+        setTasks(state => [...state].filter(item => item.uuid !== id))
+    }, setError)
+
+
+    const clickDeleteHandler = async (e) => {
         e.stopPropagation()
-
-        try {
-
-            await Task.delete(toDoListItem.uuid)
-            setToDoListItems(state => [...state].filter(item => item.uuid !== toDoListItem.uuid))
-
-        }catch (e){
-            setError(e.message)
-        }
-
+        deleteFetch(task.uuid)
     }
 
-    const markCompleted = (e) => {
-        e.stopPropagation()
-        editTask({done: true})
-    }
 
-    const editModeToDoItem = (e) => {
-        e.stopPropagation()
-        setHiddenInput(false)
-    }
+    const editFetch = useFetch(async (id, editData) => {
 
-    const handlerInputConfirm = (e) => {
+        const editTask = await Task.edit(id, editData)
+
+        setTasks(state => ([...state].map(item => {
+                if (item.uuid === task.uuid) return editTask
+                return item
+            })
+        ))
+
+    }, setError)
+
+    const inputKeyDownHandler = (e) => {
 
         if (e.code === "Enter") {
-            editTask({name: e.target.value})
+            editFetch(task.uuid, {name: e.target.value})
             setHiddenInput(true)
         }
-
 
         if (e.code === "Escape") {
             setHiddenInput(true)
@@ -66,55 +67,47 @@ const ToDoListItem = ({toDoListItem, setToDoListItems, setError}) => {
 
     }
 
-    const editTask = async (editProp) => {
+    const clickConfirmHandler = (e) => {
+        e.stopPropagation()
+        editFetch(task.uuid, {done: true})
+    }
 
-        try {
-
-            const editTask = await Task.edit(toDoListItem.uuid, editProp)
-
-            setToDoListItems(state => ([...state].map(task => {
-                    if (task.uuid === toDoListItem.uuid) return editTask
-                    return task
-                })
-            ))
-
-        } catch (e) {
-            setError(e.message)
-        }
-
+    const clickTaskHandler = (e) => {
+        e.stopPropagation()
+        setHiddenInput(false)
     }
 
 
     return (
         <ListItem
-            className={toDoListItem.done ? [classes.listItem, classes.completed].join(' ') : classes.listItem}
-            onClick={editModeToDoItem}
+            className={task.done ? [classes.listItem, classes.completed].join(' ') : classes.listItem}
+            onClick={clickTaskHandler}
         >
             <Grid container justifyContent="space-between" alignItems="center">
                 <Box>
                     <IconButton
                         size="small"
-                        onClick={markCompleted}
+                        onClick={clickConfirmHandler}
                         className="icon-button"
                     >
                         <CheckCircleOutlineIcon/>
                     </IconButton>
                     {hiddenInput
-                        ? <Typography component="span">{toDoListItem.name}</Typography>
+                        ? <Typography component="span">{task.name}</Typography>
                         : <Input
                             autoFocus
                             onBlur={() => setHiddenInput(true)}
-                            onKeyDown={handlerInputConfirm}
-                            defaultValue={toDoListItem.name}
+                            onKeyDown={inputKeyDownHandler}
+                            defaultValue={task.name}
                         />
                     }
                 </Box>
 
                 <Box>
-                    <Typography component="span">{toDoListItem.createdAt.substr(0, 10)}</Typography>
+                    <Typography component="span">{task.createdAt.substr(0, 10)}</Typography>
                     <IconButton
                         size="small"
-                        onClick={deleteItem}
+                        onClick={clickDeleteHandler}
                         className="icon-button"
                     >
                         <DeleteForeverIcon/>

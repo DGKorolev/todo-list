@@ -18,7 +18,7 @@ export const UNDONE = 'undone'
 
 function App() {
 
-    // const [error, setError] = useState('')
+    const [error, setError] = useState('')
 
     const [tasks, setTasks] = useState([])
 
@@ -32,25 +32,14 @@ function App() {
         limit: 5
     })
 
-    const [fetchFunction, error] = useFetch(async () => {
+    const fetchTasks = useFetch(async () => {
         const response = await Task.getAll()
         setTasks(response)
-    })
+    }, setError)
 
     useEffect(() => {
-        fetchFunction()
-    })
-
-    // useEffect(() => {
-    //
-    //     const fetchData = async () => {
-    //         const response = await Task.getAll()
-    //         setTasks(response)
-    //     }
-    //
-    //     fetchData()
-    //
-    // }, [])
+        fetchTasks()
+    }, [])
 
     const sortAndFilteredTasks = useSortAndFilteredTasks(tasks, filter)
 
@@ -61,7 +50,7 @@ function App() {
 
     const displayedTasks = useMemo(() => {
         return sortAndFilteredTasks.slice((paginate.page - 1) * paginate.limit, (paginate.page - 1) * paginate.limit + paginate.limit)
-    }, [sortAndFilteredTasks, paginate.page])
+    }, [sortAndFilteredTasks, paginate])
 
 
     return (
@@ -71,12 +60,12 @@ function App() {
                     <Grid container direction="column">
 
                         {error &&
-                        <Error time={2000}>{error}</Error>
+                            <Error time={2000} setError={setError}>{error}</Error>
                         }
                         <Typography variant="h4" component="h1" align="center">ToDo</Typography>
-                        <InputForm setTasks={setTasks}/>
+                        <InputForm setTasks={setTasks} setError={setError}/>
                         <Filter setFilter={setFilter}/>
-                        <ToDoList showToDoListItems={displayedTasks} setToDoListItems={setTasks}/>
+                        <ToDoList displayedTasks={displayedTasks} setTasks={setTasks} setError={setError}/>
                         <Pagination
                             count={Math.ceil(sortAndFilteredTasks.length / paginate.limit)}
                             onChange={(e, page) => setPaginate(state => ({...state, page}))}
