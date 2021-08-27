@@ -33,7 +33,7 @@ const ToDoListItem = ({toDoListItem, setToDoListItems, setError}) => {
 
         try {
 
-            const res = await Task.delete(toDoListItem.uuid)
+            await Task.delete(toDoListItem.uuid)
             setToDoListItems(state => [...state].filter(item => item.uuid !== toDoListItem.uuid))
 
         }catch (e){

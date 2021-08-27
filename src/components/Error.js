@@ -11,14 +11,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const Error = ({children, setError, time}) => {
+const Error = ({children, time}) => {
 
     const classes = useStyles()
 
     useEffect(() => {
 
         setTimeout(() => {
-            setError('')
+            // setError('')
         }, time)
 
     }, )

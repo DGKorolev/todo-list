@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const InputForm = ({addItem, setError}) => {
+const InputForm = ({setTasks}) => {
 
     const classes = useStyles()
     const [name, setName] = useState('')
@@ -23,10 +23,10 @@ const InputForm = ({addItem, setError}) => {
         try {
 
             const newToDo = await Task.creat(name)
-            addItem((toDoListState) => [...toDoListState, newToDo])
+            setTasks((toDoListState) => [...toDoListState, newToDo])
 
         }catch (e){
-            setError(e.message)
+
         }
 
 
