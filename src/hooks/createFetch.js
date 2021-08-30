@@ -1,4 +1,4 @@
-export const useFetch = (callback, setError) => {
+export const createFetch = (callback, setError) => {
 
     return async (...ars) => {
 

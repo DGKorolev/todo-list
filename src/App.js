@@ -7,7 +7,7 @@ import {Container, Grid, Typography} from '@material-ui/core'
 import Pagination from '@material-ui/lab/Pagination';
 import Task from "./services/task";
 import Error from "./components/Error";
-import {useFetch} from "./hooks/useFetch";
+import {createFetch} from "./hooks/createFetch";
 import axios from "axios";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_ADDRESS;
@@ -29,38 +29,42 @@ function App() {
         limit: 5
     })
 
-    const fetchTasks = useFetch(async (typeFilter, sortDirection) => {
-        const response = await Task.getAll(typeFilter, sortDirection)
-        setTasks(response)
-    }, setError)
+
+    const fetchTasks = useMemo(() => {
+        return createFetch(async () => {
+            const response = await Task.getAll(filter.filterType, filter.sortDirection)
+            setTasks(response)
+        })
+    }, [filter])
 
 
-
-    const createTaskFetch = useFetch(async (name) => {
+    const createTaskFetch = createFetch(async (name) => {
         await Task.create(name)
         setPaginate(paginateState => ({...paginateState, page: 1}))
+
         setFilter({
             sortDirection: DESC,
             filterType: ''
         })
-        fetchTasks(filter.filterType, filter.sortDirection)
+
+        fetchTasks()
 
     }, setError)
 
-    const editTaskFetch = useFetch(async (id, editData) => {
+    const editTaskFetch = createFetch(async (id, editData) => {
         await Task.edit(id, editData)
-        fetchTasks(filter.filterType, filter.sortDirection)
+        fetchTasks()
     }, setError)
 
-    const deleteTaskFetch = useFetch(async (id) => {
+    const deleteTaskFetch = createFetch(async (id) => {
         await Task.delete(id)
-        fetchTasks(filter.filterType, filter.sortDirection)
+        fetchTasks()
     }, setError)
 
 
     useEffect(() => {
-        fetchTasks(filter.filterType, filter.sortDirection)
-    }, [filter]);
+        fetchTasks()
+    }, [fetchTasks]);
 
 
     useEffect(() => {
