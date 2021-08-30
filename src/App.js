@@ -47,8 +47,6 @@ function App() {
             filterType: ''
         })
 
-        fetchTasks()
-
     }, setError)
 
     const editTaskFetch = createFetch(async (id, editData) => {
