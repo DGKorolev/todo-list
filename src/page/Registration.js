@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {Box, Button, Container, Grid, TextField, Typography} from "@material-ui/core";
 import Auth from '../services/auth'
+import {createFetch} from "../hooks/createFetch";
 
+import Cookies from 'js-cookie'
 
 const Registration = () => {
 
@@ -14,16 +16,20 @@ const Registration = () => {
         setFormData({...formData, [formDataField]: e.target.value})
     }
 
+    const registrationFetch = createFetch(async () => {
+        const data = await Auth.registration(formData)
+        Cookies.set('jwtToken', data.jwtToken)
+    })
+
     const sendForm = async () => {
-        const user = await Auth.registration(formData)
-        console.log(user)
+        registrationFetch()
     }
 
     return (
         <Grid container alignItems='center' justifyContent='center' style={{height: '100vh'}}>
             <Container maxWidth='sm'>
-                <Grid container direction='column' className='formContainer' alignItem='center'>
-                    <Typography variant="h4" component="h4" align='center'>Login</Typography>
+                <Grid container direction='column' className='formContainer' >
+                    <Typography variant="h4" component="h4" align='center'>Registration</Typography>
                     <TextField required id="login" label="Login" onChange={changeHandler('email')}/>
                     <TextField required id="password" label="Password" onChange={changeHandler('password')}/>
                 </Grid>

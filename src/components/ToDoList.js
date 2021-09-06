@@ -7,7 +7,7 @@ const ToDoList = ({displayedTasks, editTaskFetch, deleteTaskFetch}) => {
     return (
         <List>
             {displayedTasks.map(task =>
-                <ToDoListItem key={task.uuid} task={task} editTaskFetch={editTaskFetch} deleteTaskFetch={deleteTaskFetch}/>
+                <ToDoListItem key={task.id} task={task} editTaskFetch={editTaskFetch} deleteTaskFetch={deleteTaskFetch}/>
             )}
         </List>
     );

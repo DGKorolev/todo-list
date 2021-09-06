@@ -1,16 +1,14 @@
-export const createFetch = (callback, setError) => {
+export const createFetch = (callback, setError = null) => {
 
     return async (...ars) => {
-
-        console.log(callback)
 
         try {
 
             return await callback(...ars)
 
         }catch (e){
-
-            setError(e.message)
+            if (setError) setError(e.message)
+            console.log(e.message)
         }
 
     }

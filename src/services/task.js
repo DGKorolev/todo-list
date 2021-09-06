@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../http/axios'
 import {ASC} from "../components/Filter";
 
 export default class Task {
@@ -11,7 +11,7 @@ export default class Task {
 
         if (filterBy) params.filterBy = filterBy
 
-        const res = await axios.get('/tasks/2', {params})
+        const res = await axios.get('/tasks', {params})
 
         if (res.status !== 200) throw Error('Failed to get the task list')
 
@@ -21,7 +21,7 @@ export default class Task {
 
     static async create(taskName) {
 
-        const res = await axios.post('/task/2', {
+        const res = await axios.post('/task', {
             name: taskName,
             done: false
         })
@@ -33,7 +33,7 @@ export default class Task {
 
     static async edit(taskId, editData) {
 
-        const res = await axios.patch(`/task/2/${taskId}`, editData)
+        const res = await axios.patch(`/task/${taskId}`, editData)
 
         if (res.status !== 200) throw Error('Data change error')
 
@@ -42,7 +42,7 @@ export default class Task {
 
     static async delete(taskId) {
 
-        const res = await axios.delete(`/task/2/${taskId}`)
+        const res = await axios.delete(`/task/${taskId}`)
 
         if (res.status !== 204) throw Error('Data deletion error')
 
