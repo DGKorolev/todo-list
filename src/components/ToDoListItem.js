@@ -30,13 +30,13 @@ const ToDoListItem = ({task, editTaskFetch, deleteTaskFetch}) => {
 
     const clickDeleteHandler = async (e) => {
         e.stopPropagation()
-        deleteTaskFetch(task.uuid)
+        deleteTaskFetch(task.id)
     }
 
     const inputKeyDownHandler = (e) => {
 
         if (e.code === "Enter") {
-            editTaskFetch(task.uuid, {name: e.target.value})
+            editTaskFetch(task.id, {name: e.target.value})
             setHiddenInput(true)
         }
 
@@ -48,7 +48,7 @@ const ToDoListItem = ({task, editTaskFetch, deleteTaskFetch}) => {
 
     const clickConfirmHandler = (e) => {
         e.stopPropagation()
-        editTaskFetch(task.uuid, {done: true})
+        editTaskFetch(task.id, {done: true})
     }
 
     const clickTaskHandler = (e) => {
