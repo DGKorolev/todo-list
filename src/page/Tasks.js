@@ -69,7 +69,7 @@ const Tasks = () => {
     }, [tasks, paginate])
 
     return (
-        <Grid container alignItems="center" justifyContent="center" className='gridContainer'>
+        <Grid container alignItems="center" justifyContent="center" className='gridContainer' style={{height: '100vh'}}>
             <Container maxWidth="sm">
                 <Grid container direction="column">
 

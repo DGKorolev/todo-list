@@ -1,33 +1,20 @@
 import './App.css';
 import React from "react";
 import {
-    BrowserRouter as Router,
+    BrowserRouter,
     Switch,
-    Route,
-    Link
+    Route
 } from "react-router-dom";
 import Login from "./page/Login";
 import Registration from "./page/Registration";
 import Tasks from "./page/Tasks";
+import Navigation from "./components/Navigation";
 
 function App() {
 
     return (
-        <Router>
-            <div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Tasks</Link>
-                        </li>
-                        <li>
-                            <Link to="/login">Login</Link>
-                        </li>
-                        <li>
-                            <Link to="/registration">Registration</Link>
-                        </li>
-                    </ul>
-                </nav>
+        <BrowserRouter>
+                <Navigation/>
 
                 <Switch>
                     <Route path="/login">
@@ -37,11 +24,10 @@ function App() {
                         <Registration/>
                     </Route>
                     <Route path="/">
-                        <Tasks />
+                        <Tasks/>
                     </Route>
                 </Switch>
-            </div>
-        </Router>
+        </BrowserRouter>
     );
 }
 

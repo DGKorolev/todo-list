@@ -1,14 +1,14 @@
 import React from 'react';
-import {Container, Grid, Typography, Box, Input} from '@material-ui/core';
+import {Container, Grid, Typography, Box, Input, TextField} from '@material-ui/core';
 
 const Login = () => {
     return (
-        <Grid container alignItems='center' justifyContent='center' className='gridContainer'>
+        <Grid container alignItems='center' justifyContent='center' style={{height: '100vh'}}>
             <Container maxWidth='sm'>
-                <Grid container direction='column'>
+                <Grid container direction='column' className='formContainer'>
                     <Typography variant="h4" component="h4" align='center'>Login</Typography>
-                    <Input placeholder='login' style={{marginTop: 20}} />
-                    <Input placeholder='password' style={{marginTop: 20}}/>
+                    <TextField required id="login" label="Login" />
+                    <TextField required id="password" label="Password" />
                 </Grid>
             </Container>
         </Grid>

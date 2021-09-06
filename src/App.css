@@ -4,12 +4,17 @@
   box-sizing: border-box;
 }
 
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
 .todo-pagination{
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-.gridContainer{
-  height: 100vh;
+.formContainer>div + div{
+  margin-top: 10px;
 }
