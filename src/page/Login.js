@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Container, Grid, Typography, TextField, Button, Box} from '@material-ui/core';
 import {createFetch} from "../hooks/createFetch";
 import Auth from "../services/auth";
-import Cookies from "js-cookie";
 
 const Login = () => {
 
@@ -16,8 +15,7 @@ const Login = () => {
     }
 
     const loginFetch = createFetch(async () => {
-        const data = await Auth.login(formData)
-        Cookies.set('jwtToken', data.jwtToken)
+        await Auth.login(formData)
     })
 
     const sendForm = async () => {

@@ -3,8 +3,6 @@ import {Box, Button, Container, Grid, TextField, Typography} from "@material-ui/
 import Auth from '../services/auth'
 import {createFetch} from "../hooks/createFetch";
 
-import Cookies from 'js-cookie'
-
 const Registration = () => {
 
     const [formData, setFormData] = useState({
@@ -17,8 +15,7 @@ const Registration = () => {
     }
 
     const registrationFetch = createFetch(async () => {
-        const data = await Auth.registration(formData)
-        Cookies.set('jwtToken', data.jwtToken)
+        await Auth.registration(formData)
     })
 
     const sendForm = async () => {
