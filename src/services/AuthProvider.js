@@ -1,12 +1,11 @@
 import {useCallback, useEffect, useState} from 'react';
-import axiosWithCredentials from '../http/axios'
+import axios from "axios";
 
-
+import axiosWithCredentials from "../http/axiosWithCredentials";
 const createTokenProvider = () => {
 
-    let _token = localStorage.getItem('REACT_TOKEN_AUTH') || ''
-
     let  observers = [];
+
 
     const localStorageKey = 'jwtToken'
 
@@ -16,7 +15,7 @@ const createTokenProvider = () => {
         }
 
         const jwt = JSON.parse(atob(token.split('.')[1]));
-        return jwt && jwt.exp && jwt.exp * 1000 || null;
+        return jwt.exp * 1000 || null;
     };
 
 
@@ -30,24 +29,28 @@ const createTokenProvider = () => {
 
     const getToken = async () => {
 
-        if (isExpired(getExpirationDate(_token))) {
+        const token = localStorage.getItem('jwtToken')
+
+        if (isExpired(getExpirationDate(token))) {
             const updatedToken = await axiosWithCredentials.post('/refresh-token')
-            setToken(updatedToken);
+            setToken(updatedToken.data[localStorageKey]);
         }
 
-        return _token;
+        return localStorage.getItem('jwtToken')
     };
 
     const isLoggedIn = () => {
-        return !!_token;
+        return !!localStorage.getItem('jwtToken');
     };
 
     const setToken = (token) => {
+
         if (token) {
-            localStorage.setItem(localStorageKey, JSON.stringify(token));
+            localStorage.setItem(localStorageKey, token);
         } else {
             localStorage.removeItem(localStorageKey);
         }
+
         notify();
     };
 
@@ -76,50 +79,74 @@ const createTokenProvider = () => {
 
 export const createAuthProvider = () => {
 
+
+
     const tokenProvider = createTokenProvider()
+
+    let axiosWithToken = axios.create({
+        baseURL: 'http://localhost:3000'
+    })
+
+    axiosWithToken.interceptors.request.use(async req => {
+
+        req.headers.Authorization = `Bearer ${await tokenProvider.getToken()}`;
+
+        return req;
+    })
 
     const login = (newTokens) => {
         tokenProvider.setToken(newTokens);
     };
 
-    const logout = () => {
+    const logout = async () => {
+        await axiosWithCredentials.post('/logout')
         tokenProvider.setToken(null);
     };
 
-    const authFetch = async (input, init) => {
-
-        const token = await tokenProvider.getToken();
-
-        init = init || {};
-
-        init.headers = {
-            ...init.headers,
-            Authorization: `Bearer ${token}`,
-        };
-
-        return fetch(input, init);
-    };
+    // const authFetch = async (input, init) => {
+    //
+    //     const token = await tokenProvider.getToken();
+    //
+    //     init = init || {};
+    //
+    //     init.headers = {
+    //         ...init.headers,
+    //         Authorization: `Bearer ${token}`,
+    //     };
+    //
+    //     return fetch(input, init);
+    // };
 
     const useAuth = () => {
+
         const [isLogged, setIsLogged] = useState(tokenProvider.isLoggedIn());
+
+        const listener = useCallback(
+            (newIsLogged) => {
+                setIsLogged(newIsLogged);
+            },
+            [setIsLogged],
+        );
 
         useEffect(() => {
 
-            const listener = useCallback((newIsLogged) => {
-                setIsLogged(newIsLogged);
-            }, []);
-
             tokenProvider.subscribe(listener);
+
             return () => {
                 tokenProvider.unsubscribe(listener);
             };
-        }, []);
+
+        }, [listener]);
 
         return isLogged;
     };
 
-        return {useAuth, authFetch, login, logout}
-
+    return {useAuth, axiosWithToken, login, logout}
 };
 
-export const {useAuth, authFetch, login, logout} = createAuthProvider();
+const {useAuth, axiosWithToken, login, logout} = createAuthProvider();
+
+export {useAuth};
+export {login};
+export {axiosWithToken};
+export {logout};

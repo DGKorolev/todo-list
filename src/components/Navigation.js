@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {AppBar, Button, makeStyles, Toolbar, Typography} from "@material-ui/core";
-import {logout} from "../services/AuthProvider";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,8 +30,7 @@ const Navigation = ({logged, logout}) => {
                 </div>
 
                 <div>
-                    {logged
-                        ? (<>
+                    {!logged ? (<>
                             <Link to="/login">
                                 <Button color="inherit">Login</Button>
                             </Link>

@@ -10,11 +10,13 @@ import Registration from "./page/Registration";
 import Tasks from "./page/Tasks";
 import Navigation from "./components/Navigation";
 
-import {useAuth, authFetch, login, logout} from './services/AuthProvider'
+import {useAuth, login, logout}  from './services/AuthProvider'
 
 function App() {
 
-    const [logged] = useAuth();
+    const logged = useAuth();
+
+    console.log(logged)
 
     return (
         <BrowserRouter>

@@ -3,7 +3,7 @@ import {Container, Grid, Typography, TextField, Button, Box} from '@material-ui/
 import {createFetch} from "../hooks/createFetch";
 import Auth from "../services/auth";
 
-const Login = () => {
+const Login = ({login}) => {
 
     const [formData, setFormData] = useState({
         email: '',
@@ -15,11 +15,13 @@ const Login = () => {
     }
 
     const loginFetch = createFetch(async () => {
-        await Auth.login(formData)
+        const res = await Auth.login(formData)
+        login(res.jwtToken)
     })
 
     const sendForm = async () => {
-        loginFetch()
+        const res = await loginFetch()
+        console.log(res)
     }
 
     return (

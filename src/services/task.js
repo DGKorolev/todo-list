@@ -1,9 +1,10 @@
-import axios from '../http/axios'
 import {ASC} from "../components/Filter";
+import {axiosWithToken} from "./AuthProvider";
 
 export default class Task {
 
     static async getAll(filterBy = '', order = ASC) {
+
 
         const params = {
             order,
@@ -11,7 +12,7 @@ export default class Task {
 
         if (filterBy) params.filterBy = filterBy
 
-        const res = await axios.get('/tasks', {params})
+        const res = await axiosWithToken.get('/tasks', {params})
 
         if (res.status !== 200) throw Error('Failed to get the task list')
 
@@ -21,7 +22,7 @@ export default class Task {
 
     static async create(taskName) {
 
-        const res = await axios.post('/task', {
+        const res = await axiosWithToken.post('/task', {
             name: taskName,
             done: false
         })
@@ -33,7 +34,7 @@ export default class Task {
 
     static async edit(taskId, editData) {
 
-        const res = await axios.patch(`/task/${taskId}`, editData)
+        const res = await axiosWithToken.patch(`/task/${taskId}`, editData)
 
         if (res.status !== 200) throw Error('Data change error')
 
@@ -42,7 +43,7 @@ export default class Task {
 
     static async delete(taskId) {
 
-        const res = await axios.delete(`/task/${taskId}`)
+        const res = await axiosWithToken.delete(`/task/${taskId}`)
 
         if (res.status !== 204) throw Error('Data deletion error')
 
