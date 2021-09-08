@@ -9,6 +9,7 @@ import Login from "./page/Login";
 import Registration from "./page/Registration";
 import Tasks from "./page/Tasks";
 import Navigation from "./components/Navigation";
+
 import {useAuth, authFetch, login, logout} from './services/AuthProvider'
 
 function App() {
@@ -17,14 +18,14 @@ function App() {
 
     return (
         <BrowserRouter>
-                <Navigation/>
+                <Navigation logged={logged} logout={logout}/>
 
                 <Switch>
                     <Route path="/login">
-                        <Login/>
+                        <Login login={login}/>
                     </Route>
                     <Route path="/registration">
-                        <Registration/>
+                        <Registration login={login}/>
                     </Route>
                     <Route path="/">
                         <Tasks/>
