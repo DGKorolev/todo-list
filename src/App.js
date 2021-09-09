@@ -9,8 +9,9 @@ import Login from "./page/Login";
 import Registration from "./page/Registration";
 import Tasks from "./page/Tasks";
 import Navigation from "./components/Navigation";
+import {useAuth, login, logout} from './services/AuthProvider'
+import {LoginRoutes, NotLoginRoutes} from './routes'
 
-import {useAuth, login, logout}  from './services/AuthProvider'
 
 function App() {
 
@@ -20,19 +21,17 @@ function App() {
 
     return (
         <BrowserRouter>
-                <Navigation logged={logged} logout={logout}/>
 
-                <Switch>
-                    <Route path="/login">
-                        <Login login={login}/>
-                    </Route>
-                    <Route path="/registration">
-                        <Registration login={login}/>
-                    </Route>
-                    <Route path="/">
-                        <Tasks/>
-                    </Route>
-                </Switch>
+            <Navigation logged={logged} logout={logout}/>
+
+            <Switch>
+                {!logged
+                    ? LoginRoutes
+                    : NotLoginRoutes
+                }
+
+            </Switch>
+
         </BrowserRouter>
     );
 }

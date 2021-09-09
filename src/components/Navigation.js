@@ -22,11 +22,15 @@ const Navigation = ({logged, logout}) => {
         <AppBar position="fixed">
             <Toolbar>
                 <div className={classes.title}>
-                    <Link to="/">
-                        <Typography variant="h6">
-                            Tasks
-                        </Typography>
-                    </Link>
+                    {logged && (
+
+                        <Link to="/">
+                            <Typography variant="h6">
+                                Tasks
+                            </Typography>
+                        </Link>
+
+                    )}
                 </div>
 
                 <div>
@@ -39,11 +43,11 @@ const Navigation = ({logged, logout}) => {
                             </Link>
                         </>)
                         : (<Button
-                                color="inherit"
-                                onClick={logout}
-                            >
+                            color="inherit"
+                            onClick={logout}
+                        >
                             Logout
-                            </Button>)
+                        </Button>)
                     }
 
 
