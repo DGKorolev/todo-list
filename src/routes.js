@@ -5,25 +5,25 @@ import Registration from "./page/Registration";
 import React from "react";
 import Tasks from "./page/Tasks";
 
-const path = '/todo-list'
+
 
 export const LoginRoutes = (
     <>
-        <Route path={`${path}/login`}>
+        <Route path={`${process.env.REACT_APP_PATH_GH_PAGE}/login`}>
             <Login login={login}/>
         </Route>
-        <Route path={`${path}/registration`}>
+        <Route path={`${process.env.REACT_APP_PATH_GH_PAGE}/registration`}>
             <Registration login={login}/>
         </Route>
-        <Redirect path={`${path}/login`}/>
+        <Redirect path={`${process.env.REACT_APP_PATH_GH_PAGE}/login`}/>
     </>
 )
 
 export const NotLoginRoutes = (
     <>
-        <Route path={`${path}/`}>
+        <Route path={`${process.env.REACT_APP_PATH_GH_PAGE}/`}>
             <Tasks/>
         </Route>
-        <Redirect to={`${path}/`} />
+        <Redirect to={`${process.env.REACT_APP_PATH_GH_PAGE}/`} />
     </>
 )
