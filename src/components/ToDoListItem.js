@@ -8,11 +8,11 @@ const useStyles = makeStyles((theme) => ({
     listItem: {
         borderRadius: '5px',
         border: '1px solid' + theme.palette.grey["400"],
-        marginTop: theme.spacing(1)
+        marginTop: theme.spacing(1),
+        transition: 'all .4s',
     },
     completed: {
         background: '#eaffe9',
-        transition: 'all .4s',
         borderColor: theme.palette.success.main
     },
     hiddenInput: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const ToDoListItem = ({task, editTaskFetch, deleteTaskFetch}) => {
+const ToDoListItem = ({task, editTaskFetch, deleteTaskFetch, changePosition, dragAndDrop}) => {
 
     let classes = useStyles()
 
@@ -56,11 +56,16 @@ const ToDoListItem = ({task, editTaskFetch, deleteTaskFetch}) => {
         setHiddenInput(false)
     }
 
-
     return (
         <ListItem
             className={task.done ? [classes.listItem, classes.completed].join(' ') : classes.listItem}
             onClick={clickTaskHandler}
+            onDragStart={dragAndDrop.dragStartHandler}
+            onDragLeave={dragAndDrop.dragLeaveHandler}
+            onDragOver={dragAndDrop.dragOverHandler}
+            onDragEnd={dragAndDrop.dragEndHandler}
+            onDrop={dragAndDrop.onDropHandler}
+            draggable
         >
             <Grid container justifyContent="space-between" alignItems="center">
                 <Box>

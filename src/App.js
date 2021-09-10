@@ -17,8 +17,6 @@ function App() {
 
     const logged = useAuth();
 
-    console.log(logged)
-
     return (
         <BrowserRouter>
 
@@ -29,7 +27,6 @@ function App() {
                     ? LoginRoutes
                     : NotLoginRoutes
                 }
-
             </Switch>
 
         </BrowserRouter>

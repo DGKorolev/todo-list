@@ -79,8 +79,13 @@ const Tasks = () => {
                     <Typography variant="h4" component="h1" align="center">ToDo</Typography>
                     <InputForm setTasks={setTasks} createTaskFetch={createTaskFetch}/>
                     <Filter setFilter={setFilter}/>
-                    <ToDoList displayedTasks={displayedTasks} deleteTaskFetch={deleteTaskFetch}
-                              editTaskFetch={editTaskFetch}/>
+                    <ToDoList
+                        displayedTasks={displayedTasks}
+                        deleteTaskFetch={deleteTaskFetch}
+                        editTaskFetch={editTaskFetch}
+                        tasks={tasks}
+                        filter={filter}
+                    />
                     <Pagination
                         count={Math.ceil(tasks.length / paginate.limit)}
                         onChange={(e, page) => setPaginate(state => ({...state, page}))}
