@@ -14,21 +14,21 @@ const MyComponent = ({isAuth}) => {
             {isAuth
                 ? (
                     <>
-                        <Route path={`${process.env.REACT_APP_PATH_GH_PAGE}/`}>
+                        <Route path="/">
                             <Tasks/>
                         </Route>
-                        <Redirect to={`${process.env.REACT_APP_PATH_GH_PAGE}/`}/>
+                        <Redirect to="/" />
                     </>
                 )
                 : (
                     <>
-                        <Route path={`${process.env.REACT_APP_PATH_GH_PAGE}/login`}>
+                        <Route path="/login">
                             <Login login={login}/>
                         </Route>
-                        <Route path={`${process.env.REACT_APP_PATH_GH_PAGE}/registration`}>
+                        <Route path="/registration">
                             <Registration login={login}/>
                         </Route>
-                        <Redirect to="/login"/>
+                        <Redirect to="/login" />
                     </>
                 )
             }
