@@ -5,23 +5,25 @@ import Registration from "./page/Registration";
 import React from "react";
 import Tasks from "./page/Tasks";
 
+const path = '/todo-list'
+
 export const LoginRoutes = (
     <>
-        <Route path="/login">
+        <Route path={`${path}/login`}>
             <Login login={login}/>
         </Route>
-        <Route path="/registration">
+        <Route path={`${path}/registration`}>
             <Registration login={login}/>
         </Route>
-        <Redirect to="/login" />
+        <Redirect path={`${path}/login`}/>
     </>
 )
 
 export const NotLoginRoutes = (
     <>
-        <Route path="/">
+        <Route path={`${path}/`}>
             <Tasks/>
         </Route>
-        <Redirect to="/" />
+        <Redirect to={`${path}/`} />
     </>
 )
