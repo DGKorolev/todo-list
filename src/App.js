@@ -15,7 +15,7 @@ function App() {
     const logged = useAuth();
 
     return (
-        <HashRouter>
+            <HashRouter basename={process.env.PUBLIC_URL}>
             <Navigation logged={logged} logout={logout}/>
             <Routes/>
         </HashRouter>
