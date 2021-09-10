@@ -1,12 +1,13 @@
 import './App.css';
 import React from "react";
 import {
+    HashRouter,
     BrowserRouter,
     Switch
 } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import {useAuth, logout} from './services/AuthProvider'
-import {LoginRoutes, NotLoginRoutes} from './routes'
+import Routes from "./components/Routes";
 
 
 function App() {
@@ -14,18 +15,10 @@ function App() {
     const logged = useAuth();
 
     return (
-        <BrowserRouter>
-
+        <HashRouter>
             <Navigation logged={logged} logout={logout}/>
-
-            <Switch>
-                {!logged
-                    ? LoginRoutes
-                    : NotLoginRoutes
-                }
-            </Switch>
-
-        </BrowserRouter>
+            <Routes/>
+        </HashRouter>
     );
 }
 

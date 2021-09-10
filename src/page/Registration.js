@@ -25,6 +25,7 @@ const Registration = ({login}) => {
 
         setRedirect(true)
         login(res.jwtToken)
+
     })
 
     if (redirect) {
@@ -100,7 +101,7 @@ const Registration = ({login}) => {
                                 </Grid>
                                 <Box mt={3}>
                                     <Button
-                                        disabled={!dirty || !isValid || isSubmitting}
+                                        disabled={!dirty || !isValid}
                                         variant='contained'
                                         color='primary'
                                         type='submit'
