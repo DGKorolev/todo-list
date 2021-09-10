@@ -27,7 +27,7 @@ const Login = ({login, ...props}) => {
     })
 
     if (redirect) {
-        return (<Redirect to="/"/>)
+        return (<Redirect to={`${process.env.REACT_APP_PATH_GH_PAGE}/`}/>)
     }
 
     return (
