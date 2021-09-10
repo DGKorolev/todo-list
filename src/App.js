@@ -2,14 +2,10 @@ import './App.css';
 import React from "react";
 import {
     BrowserRouter,
-    Switch,
-    Route
+    Switch
 } from "react-router-dom";
-import Login from "./page/Login";
-import Registration from "./page/Registration";
-import Tasks from "./page/Tasks";
 import Navigation from "./components/Navigation";
-import {useAuth, login, logout} from './services/AuthProvider'
+import {useAuth, logout} from './services/AuthProvider'
 import {LoginRoutes, NotLoginRoutes} from './routes'
 
 

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import ToDoListItem from "./ToDoListItem";
 import {List} from "@material-ui/core";
-import {DESC} from "./Filter";
 
 const ToDoList = ({displayedTasks, editTaskFetch, deleteTaskFetch, changePosition, tasks, filter}) => {
 
@@ -10,21 +9,18 @@ const ToDoList = ({displayedTasks, editTaskFetch, deleteTaskFetch, changePositio
     const getDragAndDrop = (task) => ({
 
         dragStartHandler: (e) => {
+            e.preventDefault()
             setCurrentTask(task)
         },
 
         dragLeaveHandler: (e) => {
-            console.log('Leave')
+            e.preventDefault()
             e.target.style.transform = '';
         },
 
         dragOverHandler: (e) => {
             e.preventDefault()
             e.target.style.transform = 'scale(1.03)';
-        },
-
-        dragEndHandler: (e) => {
-
         },
 
         onDropHandler: (e) => {
