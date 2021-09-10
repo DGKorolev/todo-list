@@ -24,7 +24,7 @@ const Navigation = ({logged, logout}) => {
                 <div className={classes.title}>
                     {logged && (
 
-                        <Link to={`${process.env.REACT_APP_PATH_GH_PAGE}/`}>
+                        <Link to='/'>
                             <Typography variant="h6">
                                 Tasks
                             </Typography>
@@ -35,10 +35,10 @@ const Navigation = ({logged, logout}) => {
 
                 <div>
                     {!logged ? (<>
-                            <Link to={`${process.env.REACT_APP_PATH_GH_PAGE}/login`}>
+                            <Link to='/login'>
                                 <Button color="inherit">Login</Button>
                             </Link>
-                            <Link to={`${process.env.REACT_APP_PATH_GH_PAGE}/registration`}>
+                            <Link to='/registration'>
                                 <Button color="inherit">Registration</Button>
                             </Link>
                         </>)

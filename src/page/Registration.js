@@ -29,7 +29,7 @@ const Registration = ({login}) => {
     })
 
     if (redirect) {
-        return (<Redirect to={`${process.env.REACT_APP_PATH_GH_PAGE}/`}/>)
+        return (<Redirect to='/'/>)
     }
 
     return (
