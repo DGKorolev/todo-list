@@ -43,7 +43,6 @@ const Registration = ({login}) => {
                     }}
                     onSubmit={(values) => {
                         delete values.confirmPassword
-                        console.log(values)
                         registrationFetch(values)
                     }}
                     validationSchema={validationSchema}

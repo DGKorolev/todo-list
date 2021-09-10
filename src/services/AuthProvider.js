@@ -84,7 +84,7 @@ export const createAuthProvider = () => {
     const tokenProvider = createTokenProvider()
 
     let axiosWithToken = axios.create({
-        baseURL: 'http://localhost:3000'
+        baseURL: process.env.REACT_APP_API_ADDRESS
     })
 
     axiosWithToken.interceptors.request.use(async req => {

@@ -9,12 +9,10 @@ const ToDoList = ({displayedTasks, editTaskFetch, deleteTaskFetch, changePositio
     const getDragAndDrop = (task) => ({
 
         dragStartHandler: (e) => {
-            e.preventDefault()
             setCurrentTask(task)
         },
 
         dragLeaveHandler: (e) => {
-            e.preventDefault()
             e.target.style.transform = '';
         },
 
@@ -39,7 +37,6 @@ const ToDoList = ({displayedTasks, editTaskFetch, deleteTaskFetch, changePositio
 
             const newMenuPosition = task.menu_position - Math.ceil((res - task.menu_position) / 2)
 
-            console.log(newMenuPosition)
 
             editTaskFetch(currentTask.id, {
                 menu_position: newMenuPosition

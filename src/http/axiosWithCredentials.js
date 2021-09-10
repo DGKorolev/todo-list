@@ -2,7 +2,7 @@ import axios from "axios";
 
 const axiosWithCredentials = axios.create({
     withCredentials: true,
-    baseURL: 'http://localhost:3000'
+    baseURL: process.env.REACT_APP_API_ADDRESS
 })
 
 export default axiosWithCredentials

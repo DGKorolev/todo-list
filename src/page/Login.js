@@ -41,7 +41,6 @@ const Login = ({login, ...props}) => {
                         confirmPassword: ''
                     }}
                     onSubmit={(values) => {
-                        console.log(values)
                         registrationFetch(values)
                     }}
                     validationSchema={validationSchema}
