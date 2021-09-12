@@ -44,6 +44,7 @@ const Tasks = () => {
 
     }, setError)
 
+
     const editTaskFetch = createFetch(async (id, editData) => {
         await Task.edit(id, editData)
         fetchTasks()

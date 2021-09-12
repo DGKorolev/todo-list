@@ -1,17 +1,17 @@
 import React from 'react';
-import {Redirect, Route} from "react-router-dom";
+import {Redirect, Switch, Route} from "react-router-dom";
 import Login from "../page/Login";
 import {login} from "../services/AuthProvider";
 import Registration from "../page/Registration";
 import Tasks from "../page/Tasks";
 
-const MyComponent = ({isAuth}) => {
+const MyComponent = ({logged}) => {
 
     return (
 
-        <switch>
+        <Switch>
 
-            {isAuth
+            {logged
                 ? (
                     <>
                         <Route path="/">
@@ -33,7 +33,7 @@ const MyComponent = ({isAuth}) => {
                 )
             }
 
-        </switch>
+        </Switch>
 
     )
 };

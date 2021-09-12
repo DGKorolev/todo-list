@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import ToDoListItem from "./ToDoListItem";
 import {List} from "@material-ui/core";
 
-const ToDoList = ({displayedTasks, editTaskFetch, deleteTaskFetch, changePosition, tasks, filter}) => {
+const ToDoList = ({displayedTasks, editTaskFetch, deleteTaskFetch, changePosition}) => {
 
     const [currentTask, setCurrentTask] = useState({})
 
     const getDragAndDrop = (task) => ({
 
-        dragStartHandler: (e) => {
+        dragStartHandler: () => {
             setCurrentTask(task)
         },
 
@@ -24,22 +24,17 @@ const ToDoList = ({displayedTasks, editTaskFetch, deleteTaskFetch, changePositio
         onDropHandler: (e) => {
             e.preventDefault()
 
-            const res = tasks.reduce((res, taskItem) => {
+            const selectedTaskId = currentTask.id
+            const targetTaskId = task.id
 
-                if (currentTask.menu_position > task.menu_position) {
-                    return taskItem.menu_position > task.menu_position && taskItem.menu_position < res ? taskItem.menu_position : res
-                }
-
-                return taskItem.menu_position < task.menu_position && taskItem.menu_position > res ? taskItem.menu_position : res
-
-            }, currentTask.menu_position)
-
-
-            const newMenuPosition = task.menu_position - Math.ceil((res - task.menu_position) / 2)
+            if (targetTaskId === selectedTaskId) return
 
 
             editTaskFetch(currentTask.id, {
-                menu_position: newMenuPosition
+                change_position: {
+                    selectedTaskId,
+                    targetTaskId
+                }
             })
 
         }
@@ -60,6 +55,8 @@ const ToDoList = ({displayedTasks, editTaskFetch, deleteTaskFetch, changePositio
                 />
             )}
         </List>
+
+
     );
 };
 
