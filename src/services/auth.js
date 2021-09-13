@@ -1,4 +1,4 @@
-import axiosWithCredentials from "../http/axiosWithCredentials";
+import {axiosWithCredentials} from "../http/axios";
 
 export default class Auth {
 
