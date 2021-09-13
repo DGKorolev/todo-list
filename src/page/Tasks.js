@@ -8,9 +8,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import {createFetch} from "../hooks/createFetch";
 import Task from "../services/task";
 
-const Tasks = () => {
-
-    const [error, setError] = useState('')
+const Tasks = ({setError}) => {
 
     const [tasks, setTasks] = useState([])
 
@@ -73,10 +71,6 @@ const Tasks = () => {
         <Grid container alignItems="center" justifyContent="center" className='gridContainer' style={{height: '100vh'}}>
             <Container maxWidth="sm">
                 <Grid container direction="column">
-
-                    {error &&
-                    <Error time={2000} setError={setError}>{error}</Error>
-                    }
                     <Typography variant="h4" component="h1" align="center">ToDo</Typography>
                     <InputForm setTasks={setTasks} createTaskFetch={createTaskFetch}/>
                     <Filter setFilter={setFilter}/>

@@ -24,7 +24,7 @@ const Error = ({children, setError, time}) => {
     }, )
 
     return (
-        <Box p={1}>
+        <Box p={1} className='error_panel'>
             <Typography component={'span'} className={classes.error}>{children}</Typography>
         </Box>
     );

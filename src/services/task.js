@@ -5,7 +5,6 @@ export default class Task {
 
     static async getAll(filterBy = '', order = ASC) {
 
-
         const params = {
             order,
         }

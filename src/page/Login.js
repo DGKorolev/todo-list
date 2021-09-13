@@ -6,7 +6,7 @@ import * as yup from "yup";
 import {Formik} from "formik";
 import {Redirect} from "react-router-dom";
 
-const Login = ({login, ...props}) => {
+const Login = ({login, setError}) => {
 
     const [redirect, setRedirect] = useState(false)
 
@@ -24,7 +24,7 @@ const Login = ({login, ...props}) => {
 
         setRedirect(true)
         login(res.jwtToken)
-    })
+    }, setError)
 
     if (redirect) {
         return (<Redirect to='/'/>)

@@ -22,4 +22,12 @@ export default class Auth {
 
     }
 
+    static async logout(){
+        await axiosWithCredentials.post('/logout')
+    }
+
+    static async refreshToken(){
+        return await axiosWithCredentials.post('/refresh-token')
+    }
+
 }

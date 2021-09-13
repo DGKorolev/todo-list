@@ -6,7 +6,7 @@ import {Formik} from "formik";
 import * as yup from 'yup';
 import {Redirect} from "react-router-dom";
 
-const Registration = ({login}) => {
+const Registration = ({login, setError}) => {
 
     const [redirect, setRedirect] = useState(false)
 
@@ -26,7 +26,7 @@ const Registration = ({login}) => {
         setRedirect(true)
         login(res.jwtToken)
 
-    })
+    }, setError)
 
     if (redirect) {
         return (<Redirect to='/'/>)

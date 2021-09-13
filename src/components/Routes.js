@@ -1,39 +1,48 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Redirect, Switch, Route} from "react-router-dom";
 import Login from "../page/Login";
 import {login} from "../services/AuthProvider";
 import Registration from "../page/Registration";
 import Tasks from "../page/Tasks";
+import Error from "./Error";
 
 const MyComponent = ({logged}) => {
 
+    const [error, setError] = useState('')
+
     return (
-
-        <Switch>
-
-            {logged
-                ? (
-                    <>
-                        <Route path="/">
-                            <Tasks/>
-                        </Route>
-                        <Redirect to="/" />
-                    </>
-                )
-                : (
-                    <>
-                        <Route path="/login">
-                            <Login login={login}/>
-                        </Route>
-                        <Route path="/registration">
-                            <Registration login={login}/>
-                        </Route>
-                        <Redirect to="/login" />
-                    </>
-                )
+        <>
+            {error &&
+            <Error time={10000} setError={setError}>{error}</Error>
             }
 
-        </Switch>
+            <Switch>
+                {logged
+                    ? (
+                        <>
+                            <Route path="/">
+                                <Tasks setError={setError}/>
+                            </Route>
+                            <Redirect to="/" />
+                        </>
+                    )
+                    : (
+                        <>
+                            <Route path="/login">
+                                <Login login={login} setError={setError}/>
+                            </Route>
+                            <Route path="/registration">
+                                <Registration login={login} setError={setError}/>
+                            </Route>
+                            <Redirect to="/login" />
+                        </>
+                    )
+                }
+            </Switch>
+
+        </>
+
+
 
     )
 };

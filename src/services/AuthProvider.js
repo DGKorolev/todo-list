@@ -2,6 +2,7 @@ import {useCallback, useEffect, useState} from 'react';
 import axios from "axios";
 
 import axiosWithCredentials from "../http/axiosWithCredentials";
+import Auth from "./auth";
 const createTokenProvider = () => {
 
     let  observers = [];
@@ -32,7 +33,7 @@ const createTokenProvider = () => {
         const token = localStorage.getItem('jwtToken')
 
         if (isExpired(getExpirationDate(token))) {
-            const updatedToken = await axiosWithCredentials.post('/refresh-token')
+            const updatedToken = await Auth.refreshToken()
             setToken(updatedToken.data[localStorageKey]);
         }
 
@@ -99,7 +100,7 @@ export const createAuthProvider = () => {
     };
 
     const logout = async () => {
-        await axiosWithCredentials.post('/logout')
+        await Auth.logout()
         tokenProvider.setToken(null);
     };
 
