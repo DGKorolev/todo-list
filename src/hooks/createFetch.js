@@ -7,7 +7,8 @@ export const createFetch = (callback, setError = null) => {
             return await callback(...ars)
 
         }catch (e){
-            if (setError) setError(e.message)
+            const responseMessage = e.response.data.message
+            if (setError) setError(responseMessage ? responseMessage : e.message)
             console.log(e.message)
         }
 

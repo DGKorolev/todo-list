@@ -1,7 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
 import axios from "axios";
-
-import axiosWithCredentials from "../http/axiosWithCredentials";
 import Auth from "./auth";
 const createTokenProvider = () => {
 
@@ -80,8 +78,6 @@ const createTokenProvider = () => {
 
 export const createAuthProvider = () => {
 
-
-
     const tokenProvider = createTokenProvider()
 
     let axiosWithToken = axios.create({
@@ -103,20 +99,6 @@ export const createAuthProvider = () => {
         await Auth.logout()
         tokenProvider.setToken(null);
     };
-
-    // const authFetch = async (input, init) => {
-    //
-    //     const token = await tokenProvider.getToken();
-    //
-    //     init = init || {};
-    //
-    //     init.headers = {
-    //         ...init.headers,
-    //         Authorization: `Bearer ${token}`,
-    //     };
-    //
-    //     return fetch(input, init);
-    // };
 
     const useAuth = () => {
 

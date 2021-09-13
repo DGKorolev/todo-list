@@ -15,7 +15,6 @@ const Login = ({login, setError}) => {
         password: yup.string().required(),
     })
 
-
     const registrationFetch = createFetch(async (values) => {
 
         const res = await Auth.login(values)
@@ -24,6 +23,7 @@ const Login = ({login, setError}) => {
 
         setRedirect(true)
         login(res.jwtToken)
+
     }, setError)
 
     if (redirect) {

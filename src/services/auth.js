@@ -23,7 +23,8 @@ export default class Auth {
     }
 
     static async logout(){
-        await axiosWithCredentials.post('/logout')
+        const res = await axiosWithCredentials.post('/logout')
+        console.log(res)
     }
 
     static async refreshToken(){
