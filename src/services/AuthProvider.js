@@ -2,7 +2,7 @@ import {useCallback, useEffect, useState} from 'react';
 import axios from "axios";
 import Auth from "./auth";
 
-export const createTokenProvider = () => {
+const createTokenProvider = () => {
 
     let  observers = [];
 
@@ -77,7 +77,7 @@ export const createTokenProvider = () => {
 }
 
 
-const createAuthProvider = () => {
+export const createAuthProvider = () => {
 
     const tokenProvider = createTokenProvider()
 
@@ -127,7 +127,6 @@ const createAuthProvider = () => {
 
     return {useAuth, axiosWithToken, login, logout}
 };
-
 
 const {useAuth, axiosWithToken, login, logout} = createAuthProvider();
 
